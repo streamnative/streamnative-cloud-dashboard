@@ -1268,8 +1268,8 @@
       "list": [
         {
           "current": {
-            "text": "grafanacloud-fesfsejilfsjli-prom",
-            "value": "grafanacloud-prom"
+            "text": "grafana-fesfsejilfsjli-prom",
+            "value": "grafana-prom"
           },
           "includeAll": false,
           "label": "DataSource",
@@ -1279,31 +1279,6 @@
           "refresh": 1,
           "regex": "^(?!Prometheus).*$",
           "type": "datasource"
-        },
-        {
-          "current": {
-            "text": [
-              "persistent://innr/547c314/__change_events-partition-0"
-            ],
-            "value": [
-              "persistent://innr/547c314/__change_events-partition-0"
-            ]
-          },
-          "definition": "pulsar_storage_size{}",
-          "description": "",
-          "includeAll": true,
-          "label": "Topic",
-          "multi": true,
-          "name": "topic",
-          "options": [],
-          "query": {
-            "qryType": 4,
-            "query": "pulsar_storage_size{}",
-            "refId": "PrometheusVariableQueryEditor-VariableQuery"
-          },
-          "refresh": 1,
-          "regex": "/.*topic=\\\"([^\\\"]+)\\\".*/",
-          "type": "query"
         }
       ]
     },
