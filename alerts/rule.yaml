@@ -6,14 +6,14 @@ serverFiles:
       - alert: BrokerHighPublishLatency
         annotations:
           summary: Pulsar Broker P99 publish latency is over 1 second.
-        expr: sum(pulsar_broker_publish_latency{quantile="0.99"}) by (pod, cloud_streamnative_io_cluster) / 1000 > 1
+        expr: sum(pulsar_broker_publish_latency{quantile="0.99"}) by (cloud_streamnative_io_cluster) / 1000 > 1
         for: 15m
         labels:
           severity: error
       - alert: BrokerHighPublishLatency
         annotations:
           summary: Pulsar Broker P99 publish latency is over 1 second.
-        expr: sum(pulsar_broker_publish_latency{quantile="0.99"}) by (pod, cloud_streamnative_io_cluster) / 1000 > 1
+        expr: sum(pulsar_broker_publish_latency{quantile="0.99"}) by (cloud_streamnative_io_cluster) / 1000 > 1
         for: 5m
         labels:
           severity: warning
