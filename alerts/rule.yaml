@@ -1,0 +1,45 @@
+serverFiles:
+  alerting_rules.yml:
+    groups:
+    - name: pulsar
+      rules:
+      - alert: BrokerHighPublishLatency
+        annotations:
+          summary: Pulsar Broker P99 publish latency is over 1 second.
+        expr: sum(pulsar_broker_publish_latency{quantile="0.99"}) by (kubernetes_pod_name, cloud_streamnative_io_cluster) / 1000 > 1
+        for: 15m
+        labels:
+          severity: error
+      - alert: BrokerHighPublishLatency
+        annotations:
+          summary: Pulsar Broker P99 publish latency is over 1 second.
+        expr: sum(pulsar_broker_publish_latency{quantile="0.99"}) by (kubernetes_pod_name, cloud_streamnative_io_cluster) / 1000 > 1
+        for: 5m
+        labels:
+          severity: warning
+      - alert: PulsarTooManyBacklogs
+        annotations:
+          summary: Too many backlogs
+        expr: sum(pulsar_msg_backlog{}) by (topic, cloud_streamnative_io_cluster) > 10000
+        for: 10m
+        labels:
+          severity: error
+      - alert: PulsarThroughputInDrop
+        annotations:
+          summary: 'Pulsar Pubish Throughput_in Dropped'
+        expr: |-
+          sum(pulsar_throughput_in{}) by (kubernetes_pod_name, cloud_streamnative_io_cluster)
+          < 100 AND sum(pulsar_throughput_in{} offset 30m) by (kubernetes_pod_name, cloud_streamnative_io_cluster)
+           > 1000000 AND (sum(pulsar_throughput_in{}) by (kubernetes_pod_name, cloud_streamnative_io_cluster))
+          / (sum(pulsar_throughput_in{} offset 30m) by (kubernetes_pod_name, cloud_streamnative_io_cluster)
+          ) * 100 < 50
+        for: 1m
+        labels:
+          severity: error
+      - alert: PulsarPubishRateDrop
+        annotations:
+          summary: "Pulsar Pubish Rate Dropped"
+        expr: (sum(pulsar_rate_in{}) by (kubernetes_pod_name, cloud_streamnative_io_cluster)) / (sum(pulsar_rate_in{}) by (kubernetes_pod_name, cloud_streamnative_io_cluster) offset 15m) * 100 < 50  AND (sum(pulsar_rate_in{}) by (kubernetes_pod_name, cloud_streamnative_io_cluster) > 500)
+        for: 5m
+        labels:
+          severity: info
